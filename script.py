@@ -54,21 +54,34 @@ def sleep_countdown():
 
     sys.stdout.write("\n")
 
-def download_clip(client, clip_pk):
+def ckecklicked_comments(client, clip_pk, thread_id):
+    #Check if Video has a liked comments
+    if thread_id == "340282366841710300949128126830029963194": #Thread ID from Ainme Vorschlag
+        first_comments = client.media_comments(clip_pk, 100)
+        for comment in first_comments:
+            comment.dict()
+            if comment["has_liked"]== True:
+                text = comment["text"]
+                print (text)
+
+
+def download_clip(client, clip_pk, thread_id):
     print(f"[{get_now()}] Downloading reel {clip_pk}")
 
     # Get the current working directory
     cwd = os.getcwd()
 
     # Construct the path to the download folder
-    download_path = os.path.join(cwd, "download")
+    download_path = os.path.join(cwd, thread_id)
 
     # Check if the download folder exists
     if not os.path.exists(download_path):
         os.makedirs(download_path)
         print(f"[{get_now()}] Created {download_path}")
 
-    client.video_download(clip_pk, "download")
+    ckecklicked_comments(client, clip_pk, thread_id)
+
+    client.video_download(clip_pk, thread_id)
     print(f"[{get_now()}] Downloaded {clip_pk}")
     client.delay_range = [1, 3]
 
@@ -108,10 +121,10 @@ def main():
                         match message.item_type:
                             case "clip":
                                 print(
-                                    f"[{get_now()}] Downloading reel {message.clip.pk}"
+                                    f"[{get_now()}] Start Downloading reel {message.clip.pk}"
                                 )
                                 try:
-                                    download_clip(cl, message.clip.pk)
+                                    download_clip(cl, message.clip.pk, thread_id)
                                 except Exception as e:
                                     print(e)
                             case "xma_story_share":
