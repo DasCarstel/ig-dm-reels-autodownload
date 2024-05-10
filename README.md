@@ -1,5 +1,7 @@
 # Instagram DM Reels Auto-downloader (DM Reel Bot/Downloader)
 
+# This fork is very early in development, and I am very new to GitHub, but the main difference is that I wanted the reels not to land in a singular folder. Instead, I wanted them to be sorted by different chats.
+
 This script monitors Instagram direct messages and downloads reels shared via direct messages every 30 to 60 minutes into a `download` folder. It uses the [instagrapi](https://github.com/adw0rd/instagrapi) library to access and interact with Instagram.
 
 ⚠️ Warning ⚠️
